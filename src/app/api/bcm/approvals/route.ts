@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function GET() {
@@ -28,7 +28,7 @@ export async function PATCH(request: Request) {
         status,
         approvedAt: status === 'APPROVED' ? new Date() : null,
         approverName: approverName || 'Dr. Hendra Gunawan, MM',
-        digitalSignature: digitalSignature || SIG-SHA256-
+        digitalSignature: digitalSignature || `SIG-SHA256-${Date.now()}`
       }
     });
 
@@ -39,7 +39,7 @@ export async function PATCH(request: Request) {
         actor: 'hendra_director',
         role: 'Director / Principal Advisor',
         ipAddress: '192.168.10.8',
-        details: Approval desk  () set to  with cryptographic signature.
+        details: `Approval desk ${approvalCode} (${updated.processName}) set to ${status} with cryptographic signature.`
       }
     });
 
