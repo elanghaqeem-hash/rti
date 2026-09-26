@@ -79,8 +79,14 @@ export default function CustomerPortal() {
         const dataOrders = await resOrders.json();
         setOrders(dataOrders);
       }
+      // Fetch tickets from database
+      const resTickets = await fetch(`/api/tickets?clientId=${userId}`);
+      if (resTickets.ok) {
+        const dataTickets = await resTickets.json();
+        setTickets(dataTickets);
+      }
     } catch (err) {
-      console.error('Failed to fetch portal orders data:', err);
+      console.error('Failed to fetch portal orders/tickets data:', err);
     }
   };
 
@@ -157,24 +163,33 @@ export default function CustomerPortal() {
     }
   };
 
-  const handleCreateTicket = (e: React.FormEvent) => {
+  const handleCreateTicket = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!ticketSubject.trim() || !ticketMessage.trim()) return;
     setTicketSuccess(false);
 
-    // Mock create ticket
-    const newTicket = {
-      id: Math.random().toString(),
-      subject: ticketSubject,
-      message: ticketMessage,
-      status: 'OPEN',
-      createdAt: new Date().toISOString()
-    };
+    try {
+      const res = await fetch('/api/tickets', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          clientId: user?.id || 'client-demo',
+          subject: ticketSubject,
+          message: ticketMessage
+        })
+      });
 
-    setTickets(prev => [newTicket, ...prev]);
-    setTicketSubject('');
-    setTicketMessage('');
-    setTicketSuccess(true);
-    setTimeout(() => setTicketSuccess(false), 3000);
+      if (res.ok) {
+        const created = await res.json();
+        setTickets(prev => [created, ...prev]);
+        setTicketSubject('');
+        setTicketMessage('');
+        setTicketSuccess(true);
+        setTimeout(() => setTicketSuccess(false), 3000);
+      }
+    } catch (err) {
+      console.error('Failed to save ticket to database:', err);
+    }
   };
 
   return (
