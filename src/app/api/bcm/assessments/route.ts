@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function GET() {
@@ -70,7 +70,7 @@ export async function POST(request: Request) {
         actor: 'sarah_lead_bcm',
         role: 'Lead BCM Consultant',
         ipAddress: '192.168.10.12',
-        details: Updated BIA parameters for  (): RTO=h, RPO=m, MTPD=h.
+        details: `Updated BIA parameters for ${processId} (${saved.processName}): RTO=${saved.rtoHours}h, RPO=${saved.rpoMinutes}m, MTPD=${saved.mtpdHours}h.`
       }
     });
 
