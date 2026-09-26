@@ -166,3 +166,72 @@ model Booking {
   description String?
   createdAt   DateTime @default(now())
 }
+
+model BcmAssessment {
+  id                      String   @id @default(uuid())
+  processId               String   @unique
+  processName             String
+  businessUnit            String
+  operationalImpact       Int      @default(3)
+  financialImpactPerHour  Int      @default(100)
+  mtpdHours               Int      @default(4)
+  rtoHours                Int      @default(2)
+  rpoMinutes              Int      @default(15)
+  spofComponents          String?
+  recoveryStrategy        String?
+  status                  String   @default("REVIEWED")
+  updatedAt               DateTime @updatedAt
+  createdAt               DateTime @default(now())
+}
+
+model BcmApproval {
+  id               String    @id @default(uuid())
+  approvalCode     String    @unique
+  processName      String
+  businessUnit     String
+  submitter        String
+  rto              String
+  rpo              String
+  status           String    @default("PENDING") // "PENDING", "APPROVED", "REJECTED"
+  approvedAt       DateTime?
+  approverName     String?
+  digitalSignature String?
+  createdAt        DateTime  @default(now())
+}
+
+model BcmDocument {
+  id             String   @id @default(uuid())
+  docCode        String   @unique
+  title          String
+  department     String
+  status         String   @default("REQUESTED") // "REQUESTED", "SUBMITTED", "ACCEPTED", "REJECTED"
+  submissionDate String   @default("Menunggu Berkas")
+  fileUrl        String?
+  notes          String?
+  updatedAt      DateTime @updatedAt
+  createdAt      DateTime @default(now())
+}
+
+model BcmUser {
+  id        String   @id @default(uuid())
+  userCode  String   @unique
+  username  String   @unique
+  email     String   @unique
+  name      String
+  role      String
+  org       String
+  mfaType   String
+  status    String   @default("ACTIVE") // "ACTIVE", "LOCKED"
+  createdAt DateTime @default(now())
+}
+
+model BcmAuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  actor     String
+  role      String
+  ipAddress String   @default("127.0.0.1")
+  details   String
+  timestamp DateTime @default(now())
+}
+
