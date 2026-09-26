@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function GET() {
@@ -39,7 +39,7 @@ export async function PATCH(request: Request) {
         actor: 'rian_coord',
         role: 'Client BCM Coordinator',
         ipAddress: '10.20.1.88',
-        details: DRL Document  () status updated to .
+        details: `DRL Document ${docCode} (${updated.title}) status updated to ${status}.`
       }
     });
 
