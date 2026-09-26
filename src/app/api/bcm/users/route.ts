@@ -1,4 +1,4 @@
-﻿import { NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
 
 export async function GET() {
@@ -34,7 +34,7 @@ export async function PATCH(request: Request) {
         actor: 'superadmin_sec',
         role: 'Super Administrator',
         ipAddress: '192.168.10.4',
-        details: Account  () status changed to .
+        details: `Account ${userCode} (${updated.name}) status changed to ${status}.`
       }
     });
 
