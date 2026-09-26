@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   ShieldCheck,
   Lock,
@@ -73,6 +74,8 @@ const DEMO_ACCOUNTS: DemoAccount[] = [
 ];
 
 export default function BcmLoginModal({ isOpen, onClose }: BcmLoginModalProps) {
+  const router = useRouter();
+
   // Login states
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -132,6 +135,7 @@ export default function BcmLoginModal({ isOpen, onClose }: BcmLoginModalProps) {
           mfaType: 'TOTP Authenticator'
         };
         setCurrentUser(user);
+        setMfaCode('');
         setStep('MFA_CHALLENGE');
       } else {
         setErrorMessage('Kombinasi kredensial tidak valid.');
@@ -144,8 +148,8 @@ export default function BcmLoginModal({ isOpen, onClose }: BcmLoginModalProps) {
     e.preventDefault();
     setErrorMessage(null);
 
-    if (!mfaCode.trim()) {
-      setErrorMessage('Silakan masukkan kode verifikasi MFA.');
+    if (!mfaCode.trim() || mfaCode.length < 6) {
+      setErrorMessage('Silakan masukkan 6-digit kode verifikasi MFA.');
       return;
     }
 
@@ -153,7 +157,8 @@ export default function BcmLoginModal({ isOpen, onClose }: BcmLoginModalProps) {
     setTimeout(() => {
       setIsSubmitting(false);
       if (mfaCode === '123456' || mfaCode.length === 6) {
-        setStep('LOGGED_IN');
+        onClose();
+        router.push(`/bcm-nav?role=${encodeURIComponent(currentUser?.role || '')}&user=${encodeURIComponent(currentUser?.username || '')}`);
       } else {
         setErrorMessage('Kode token MFA salah atau telah kedaluwarsa.');
       }

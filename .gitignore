@@ -50,5 +50,6 @@ next-env.d.ts
 
 # Large binaries and archives
 *.zip
+!sistem-konsultan-dan-isox.zip
 *.exe
 
