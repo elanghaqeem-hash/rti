@@ -1148,13 +1148,7 @@ export default function BcmNavPageClient() {
                           <td className="py-3 px-3 text-right font-sans">
                             <button
                               type="button"
-                              onClick={() => {
-                                setDrlList((prev) =>
-                                  prev.map((item) =>
-                                    item.id === d.id ? { ...item, status: 'SUBMITTED', date: 'Baru saja diunggah' } : item
-                                  )
-                                );
-                              }}
+                              onClick={() => handleUploadDrl(d.id)}
                               className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-[11px] font-bold transition-all cursor-pointer"
                             >
                               {d.status === 'ACCEPTED' ? 'Lihat Berkas' : 'Unggah Ulang'}
